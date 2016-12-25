@@ -1,19 +1,22 @@
 package com.example.rahul.locationtaskreminder.activities;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.rahul.locationtaskreminder.R;
@@ -31,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Toolbar setup
-
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         toolbar.setNavigationIcon(R.mipmap.ic_toolbar);
         toolbar.setTitle("Location Task Reminder");
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
 
-        //
+        //custom tabs
         TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
         tabOne.setText("Map");
         tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.ic_location, 0, 0);
@@ -66,6 +68,12 @@ public class MainActivity extends AppCompatActivity {
 
         tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FF0B7ED6"));
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    0);
+        }
+
     }
 
     @Override
@@ -74,14 +82,31 @@ public class MainActivity extends AppCompatActivity {
         menuInflater.inflate(R.menu.menu_main, menu);
         return true;
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
+    public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
 
 
         }
         return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 0: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
+                   // adapterViewPager.notifyDataSetChanged();
+
+                }
+                return;
+            }
+
+        }
     }
 }
