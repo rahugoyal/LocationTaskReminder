@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:background="@mipmap/bg_home"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_add_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Add Task"
+        android:textColor="#fff"
+        android:textSize="32dp" />
+
+    <EditText
+        android:id="@+id/et_add_task_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_add_task"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#fff"
+        android:gravity="center"
+        android:hint="enter task name*"
+        android:inputType="text"
+        android:singleLine="true"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:textSize="16dp" />
+
+    <LinearLayout
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginLeft="32dp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/ll_add_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_add_task_name"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:textColor="#fff"
+            android:text="Search Location"
+            android:enabled="false"
+            android:id="@+id/tv_add_task_location"/>
+        <ImageButton
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ib_add_task_search_location"
+            android:background="@mipmap/ic_location_search"/>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/et_add_task_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_add_task"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#fff"
+        android:gravity="top|left"
+        android:inputType="textMultiLine"
+        android:lines="20"
+        android:maxLines="10"
+        android:minLines="5"
+        android:scrollHorizontally="false"
+        android:scrollbars="vertical"
+        android:singleLine="false"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
+        android:textSize="16dp" />
+</RelativeLayout>

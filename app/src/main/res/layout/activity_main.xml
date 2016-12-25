@@ -13,13 +13,19 @@
         android:layout_width="match_parent"
         android:layout_height="56dp" />
 
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar_main"></FrameLayout>
+
     <android.support.design.widget.TabLayout
-        android:background="#fff"
-        android:layout_marginTop="10dp"
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar_main" />
+        android:layout_below="@+id/toolbar_main"
+        android:layout_marginTop="10dp"
+        android:background="#fff" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"

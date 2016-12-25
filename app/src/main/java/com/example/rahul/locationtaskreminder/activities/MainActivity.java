@@ -15,12 +15,14 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.example.rahul.locationtaskreminder.R;
 import com.example.rahul.locationtaskreminder.adapters.PagerAdapter;
+import com.example.rahul.locationtaskreminder.fragments.AddTask;
 
 public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -87,10 +89,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-
-
+            case R.id.add_reminder:
+                tabLayout.setVisibility(View.GONE);
+                viewPager.setVisibility(View.GONE);
+                getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new AddTask()).addToBackStack("Add Task").commit();
+                break;
+            default:
+                Toast.makeText(this, "No valid operation", Toast.LENGTH_SHORT).show();
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -101,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
-                   // adapterViewPager.notifyDataSetChanged();
+                    // adapterViewPager.notifyDataSetChanged();
 
                 }
                 return;
