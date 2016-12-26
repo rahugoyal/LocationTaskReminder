@@ -6,4 +6,10 @@
         android:icon="@mipmap/ic_add"
         android:title="Add Reminder"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/save_reminder"
+        android:icon="@mipmap/ic_save"
+        android:title="Save"
+        android:visible="false"
+        app:showAsAction="always" />
 </menu>
