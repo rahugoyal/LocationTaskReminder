@@ -7,6 +7,8 @@ archivesBaseName = 'android-maps-utils'
 group = 'com.google.maps.android'
 
 android {
+        useLibrary 'org.apache.http.legacy'
+
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
     defaultConfig {

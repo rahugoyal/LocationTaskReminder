@@ -2,12 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="@mipmap/bg_home"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="pending task" />
+    <ListView
+        android:id="@+id/lv_pending"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="#fff"
+        android:dividerHeight="4px"
+        android:longClickable="true"
+        android:padding="2dp" />
 </LinearLayout>

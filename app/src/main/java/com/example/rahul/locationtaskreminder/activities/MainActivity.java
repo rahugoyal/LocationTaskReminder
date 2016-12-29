@@ -15,12 +15,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +32,10 @@ import android.widget.Toast;
 import com.example.rahul.locationtaskreminder.R;
 import com.example.rahul.locationtaskreminder.adapters.PagerAdapter;
 import com.example.rahul.locationtaskreminder.fragments.AddTask;
+import com.example.rahul.locationtaskreminder.fragments.EditFragment;
 import com.example.rahul.locationtaskreminder.interfaces.Communicator;
 import com.example.rahul.locationtaskreminder.receivers.ProximityIntentReceiver;
+
 
 public class MainActivity extends AppCompatActivity implements Communicator {
     private Toolbar toolbar;
@@ -37,11 +43,12 @@ public class MainActivity extends AppCompatActivity implements Communicator {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private MenuItem saveTask, addTask;
-    private static final long POINT_RADIUS = 100; // in Meters
+    private static final long POINT_RADIUS = 1000; // in Meters
     private static final long PROX_ALERT_EXPIRATION = -1; // It will never expire
     private static final String PROX_ALERT_INTENT = "com.example.rahul.locationtaskreminder.activities.ProximityAlert";
     private LocationManager locationManager;
     private double lattitude = 0, longitude = 0;
+    public static final String TIME_SERVER = "time-a.nist.gov";
 
 
     @Override
@@ -54,12 +61,12 @@ public class MainActivity extends AppCompatActivity implements Communicator {
 
         //Toolbar setup
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.mipmap.ic_toolbar);
         toolbar.setTitle("Location Task Reminder");
-        setSupportActionBar(toolbar);
+
 
         //viewpager setup with fragment
-
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         adapterViewPager = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(adapterViewPager);
@@ -93,6 +100,14 @@ public class MainActivity extends AppCompatActivity implements Communicator {
                     0);
         }
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        toolbar.setNavigationIcon(R.mipmap.ic_toolbar);
+        toolbar.setTitle("Location Task Reminder");
     }
 
     @Override
@@ -109,6 +124,9 @@ public class MainActivity extends AppCompatActivity implements Communicator {
 
 
         switch (item.getItemId()) {
+//            case android.R.id.home:
+//                onBackPressed();
+//                break;
             case R.id.add_reminder:
                 tabLayout.setVisibility(View.GONE);
                 viewPager.setVisibility(View.GONE);
@@ -118,13 +136,24 @@ public class MainActivity extends AppCompatActivity implements Communicator {
                 break;
 
             case R.id.save_reminder:
-                addProximityAlert();
-                saveTask.setVisible(false);
-                addTask.setVisible(true);
-                getSupportFragmentManager().popBackStack();
-                tabLayout.setVisibility(View.VISIBLE);
-                viewPager.setVisibility(View.VISIBLE);
-                Toast.makeText(this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+                String name = ((EditText) findViewById(R.id.et_add_task_name)).getText().toString();
+                String description = ((EditText) findViewById(R.id.et_add_task_description)).getText().toString();
+                String location = ((TextView) findViewById(R.id.tv_location_task)).getText().toString();
+                if (name.equals("")) {
+                    ((EditText) findViewById(R.id.et_add_task_name)).setError("please give name of task ");
+                } else if (description.equals("")) {
+                    ((EditText) findViewById(R.id.et_add_task_description)).setError("please give description of task");
+                } else if (location.equals("")) {
+                    ((TextView) findViewById(R.id.tv_location_task)).setError("location can not be empty");
+                } else {
+                    addProximityAlert();
+                    saveTask.setVisible(false);
+                    addTask.setVisible(true);
+                    getSupportFragmentManager().popBackStack();
+                    tabLayout.setVisibility(View.VISIBLE);
+                    viewPager.setVisibility(View.VISIBLE);
+                    Toast.makeText(this, "Data saved successfully", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
 
@@ -137,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+
         // if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
         if (saveTask.isVisible())
             saveTask.setVisible(false);

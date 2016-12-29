@@ -4,8 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -30,7 +36,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class AddTask extends Fragment {
     private LinearLayout mLlsearch;
-    private EditText mEtName, mEtDescription;
+
     private TextView mTvLocation;
     private Communicator mCommunicator;
 
@@ -44,8 +50,6 @@ public class AddTask extends Fragment {
 
     private void initializeViews(View view) {
         mLlsearch = (LinearLayout) view.findViewById(R.id.ll_add_task);
-        mEtName = (EditText) view.findViewById(R.id.et_add_task_name);
-        mEtDescription = (EditText) view.findViewById(R.id.et_add_task_description);
         mTvLocation = (TextView) view.findViewById(R.id.tv_location_task);
         mCommunicator = (Communicator) getActivity();
         mLlsearch.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +60,17 @@ public class AddTask extends Fragment {
             }
         });
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     public void findPlace() {
@@ -76,8 +91,7 @@ public class AddTask extends Fragment {
                 Place place = PlaceAutocomplete.getPlace(getActivity(), data);
                 mTvLocation.setText(place.getAddress() + "");
                 LatLng latlng = place.getLatLng();
-                mCommunicator.communicate(latlng.latitude,latlng.longitude);
-                Log.e("latlong", place.getLatLng() + "");
+                mCommunicator.communicate(latlng.latitude, latlng.longitude);
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(getActivity(), data);
                 Log.i("error", status.getStatusMessage());

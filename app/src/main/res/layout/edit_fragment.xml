@@ -5,25 +5,25 @@
     android:background="@mipmap/bg_home">
 
     <TextView
-        android:id="@+id/tv_add_task"
+        android:id="@+id/tv_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="Add Task"
+        android:text="Edit Task"
         android:textColor="#fff"
         android:textSize="32dp" />
 
     <EditText
-        android:id="@+id/et_add_task_name"
+        android:id="@+id/et_edit_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_add_task"
+        android:layout_below="@+id/tv_edit"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:backgroundTint="#fff"
         android:gravity="center"
         android:hint="enter task name*"
@@ -34,19 +34,19 @@
         android:textSize="24dp" />
 
     <LinearLayout
-        android:id="@+id/ll_add_task"
+        android:id="@+id/ll_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/et_add_task_name"
+        android:layout_below="@+id/et_edit_name"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:gravity="center"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_add_task_location"
+            android:id="@+id/tv_edit_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:enabled="false"
@@ -55,7 +55,7 @@
             android:textSize="24dp" />
 
         <ImageButton
-            android:id="@+id/ib_add_task_search_location"
+            android:id="@+id/ib_edit_search_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -63,39 +63,49 @@
     </LinearLayout>
 
     <EditText
-        android:padding="4dp"
-        android:id="@+id/et_add_task_description"
+        android:id="@+id/et_edit_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_add_task"
+        android:layout_below="@+id/ll_edit"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:background="@drawable/edittext_ractangle"
         android:gravity="center"
-
+        android:hint="please enter decription*"
         android:inputType="textMultiLine"
         android:lines="20"
         android:maxLines="10"
         android:minLines="5"
+        android:padding="4dp"
         android:scrollHorizontally="false"
-        android:hint="please enter decription*"
         android:scrollbars="vertical"
         android:singleLine="false"
         android:textColor="#fff"
         android:textColorHint="#fff"
         android:textSize="24dp" />
+
     <TextView
-        android:layout_below="@+id/et_add_task_description"
-        android:id="@+id/tv_location_task"
+        android:id="@+id/tv_location_edit"
         style="@android:style/Widget.EditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/et_edit_description"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:text=""
         android:textColor="#fff"
         android:textSize="16dp" />
+
+    <ImageButton
+        android:layout_below="@+id/tv_location_edit"
+        android:id="@+id/ib_update_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:background="@mipmap/ic_update" />
+
 </RelativeLayout>
