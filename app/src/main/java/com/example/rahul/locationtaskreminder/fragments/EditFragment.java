@@ -50,7 +50,7 @@ public class EditFragment extends Fragment {
         if (itemPojo != null) {
             mEtname.setText(itemPojo.getName());
             mEtdescription.setText(itemPojo.getDescription());
-            mTvLocation.setText("");
+            mTvLocation.setText("loc");
         }
         mIbUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,11 +105,11 @@ public class EditFragment extends Fragment {
 
     public boolean validateData() {
         boolean validateStatus = false;
-        if (!mEtname.getText().toString().isEmpty()) {
+        if (mEtname.getText().toString().isEmpty()) {
             mEtname.setError("please give task name");
-        } else if (!mEtdescription.getText().toString().isEmpty()) {
+        } else if (mEtdescription.getText().toString().isEmpty()) {
             mEtdescription.setError("please give task description");
-        } else if (!mTvLocation.getText().toString().isEmpty()) {
+        } else if (mTvLocation.getText().toString().isEmpty()) {
             mTvLocation.setError("location can not be empty");
         } else validateStatus = true;
         return validateStatus;
