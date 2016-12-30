@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_gravity="center_horizontal"
-    android:gravity="center_horizontal"
     android:descendantFocusability="blocksDescendants"
-    android:padding="10dp"
-    android:layout_height="match_parent">
+    android:gravity="center_horizontal"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/tv_list_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
-
         android:gravity="center"
         android:text="Name"
         android:textColor="#fff"
@@ -30,13 +31,33 @@
         android:textColor="#fff"
         android:textSize="16dp" />
 
+    <com.venmo.view.TooltipView
+        android:id="@+id/tooltip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="2dp"
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="2dp"
+        android:background="@android:color/transparent"
+        android:text="Kondapur, Hyderabad"
+        android:textColor="#fff"
+        android:textSize="10dp"
+        android:visibility="gone"
+        app:tooltipColor="@android:color/transparent" />
+
     <ImageButton
         android:id="@+id/ib_list_item_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_below="@+id/tooltip"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="16dp"
         android:background="@mipmap/ic_location_tooltip" />
+
 
 </RelativeLayout>

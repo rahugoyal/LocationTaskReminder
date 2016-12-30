@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.example.rahul.locationtaskreminder.R;
 import com.example.rahul.locationtaskreminder.adapters.CustomListAdapter;
 import com.example.rahul.locationtaskreminder.pojos.ItemPojo;
+import com.venmo.view.TooltipView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,6 +33,8 @@ public class PendingTaskFragment extends Fragment {
     private ListView mListView;
     private CustomListAdapter mAdapter;
     private List<ItemPojo> pojoList;
+    private TooltipView mTooltip;
+    private ImageButton mIbLocation;
 
     @Nullable
     @Override
@@ -45,8 +49,11 @@ public class PendingTaskFragment extends Fragment {
         pojoList = new ArrayList<>();
         ItemPojo pojo = new ItemPojo("purchasing oil", "what are u doing?", "");
         ItemPojo pojo1 = new ItemPojo("doing work", "what did u do?", "");
+        ItemPojo pojo2 = new ItemPojo("doing work", "what did u do?", "");
         pojoList.add(pojo);
         pojoList.add(pojo1);
+        pojoList.add(pojo2);
+
 
         mAdapter = new CustomListAdapter(getActivity().getApplicationContext(), pojoList);
         mListView.setAdapter(mAdapter);
@@ -75,6 +82,7 @@ public class PendingTaskFragment extends Fragment {
 
             }
         });
+
 
 
     }
