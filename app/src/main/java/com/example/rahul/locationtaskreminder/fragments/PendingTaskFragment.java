@@ -19,9 +19,7 @@ import android.widget.Toast;
 import com.example.rahul.locationtaskreminder.R;
 import com.example.rahul.locationtaskreminder.adapters.CustomListAdapter;
 import com.example.rahul.locationtaskreminder.pojos.ItemPojo;
-import com.venmo.view.TooltipView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +31,6 @@ public class PendingTaskFragment extends Fragment {
     private ListView mListView;
     private CustomListAdapter mAdapter;
     private List<ItemPojo> pojoList;
-    private TooltipView mTooltip;
     private ImageButton mIbLocation;
 
     @Nullable
@@ -47,9 +44,9 @@ public class PendingTaskFragment extends Fragment {
     private void initializeViews(View view) {
         mListView = (ListView) view.findViewById(R.id.lv_pending);
         pojoList = new ArrayList<>();
-        ItemPojo pojo = new ItemPojo("purchasing oil", "what are u doing?", "");
-        ItemPojo pojo1 = new ItemPojo("doing work", "what did u do?", "");
-        ItemPojo pojo2 = new ItemPojo("doing work", "what did u do?", "");
+        ItemPojo pojo = new ItemPojo("purchasing oil", "what are u doing?", "","");
+        ItemPojo pojo1 = new ItemPojo("doing work", "what did u do?", "","");
+        ItemPojo pojo2 = new ItemPojo("doing work", "what did u do?", "","");
         pojoList.add(pojo);
         pojoList.add(pojo1);
         pojoList.add(pojo2);
@@ -79,6 +76,7 @@ public class PendingTaskFragment extends Fragment {
                 args.putInt("status", 1);
                 editFragment.setArguments(args);
                 getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, editFragment).addToBackStack("Edit Task").commit();
+
 
             }
         });

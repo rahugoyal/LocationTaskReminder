@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.example.rahul.locationtaskreminder.R;
 
+
 public class SplashActivity extends AppCompatActivity {
 
     @Override
@@ -13,14 +14,14 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        Thread timerThread = new Thread(){
-            public void run(){
-                try{
+        Thread timerThread = new Thread() {
+            public void run() {
+                try {
                     sleep(3000);
-                }catch(InterruptedException e){
+                } catch (InterruptedException e) {
                     e.printStackTrace();
-                }finally{
-                    Intent intent = new Intent(SplashActivity.this,MainActivity.class);
+                } finally {
+                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                     startActivity(intent);
                 }
             }

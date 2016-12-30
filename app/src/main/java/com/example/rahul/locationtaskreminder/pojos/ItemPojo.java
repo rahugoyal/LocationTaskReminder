@@ -6,15 +6,38 @@ import java.io.Serializable;
  * Created by Rahul on 12/27/2016.
  */
 
-public class ItemPojo implements Serializable{
+public class ItemPojo implements Serializable {
     String name;
     String description;
     String location;
+    String taskStatus;
+    int id;
 
-    public ItemPojo(String name, String description, String location) {
+    public ItemPojo() {
+    }
+
+    public ItemPojo( String name, String description, String location, String taskStatus) {
+
         this.name = name;
         this.description = description;
         this.location = location;
+        this.taskStatus = taskStatus;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTaskStatus() {
+        return taskStatus;
+    }
+
+    public void setTaskStatus(String taskStatus) {
+        this.taskStatus = taskStatus;
     }
 
     public String getName() {

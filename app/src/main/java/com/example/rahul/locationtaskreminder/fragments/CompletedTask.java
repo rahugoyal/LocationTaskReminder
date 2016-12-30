@@ -40,8 +40,8 @@ public class CompletedTask extends Fragment {
     private void initializeViews(View view) {
         mListView = (ListView) view.findViewById(R.id.lv_completed);
         pojoList = new ArrayList<>();
-        ItemPojo pojo = new ItemPojo("purchasing oil", "what are u doing?", "");
-        ItemPojo pojo1 = new ItemPojo("doing work", "what did u do?", "");
+        ItemPojo pojo = new ItemPojo("purchasing oil", "what are u doing?", "","");
+        ItemPojo pojo1 = new ItemPojo("doing work", "what did u do?", "","");
         pojoList.add(pojo);
         pojoList.add(pojo1);
 

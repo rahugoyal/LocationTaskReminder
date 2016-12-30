@@ -2,17 +2,16 @@ package com.example.rahul.locationtaskreminder.adapters;
 
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.rahul.locationtaskreminder.R;
 import com.example.rahul.locationtaskreminder.pojos.ItemPojo;
-import com.venmo.view.TooltipView;
 
 import java.util.List;
 
@@ -23,13 +22,17 @@ import java.util.List;
 public class CustomListAdapter extends BaseAdapter {
     private Context mContext;
     private List<ItemPojo> pojoList;
-    TooltipView mTooltip;
+    View v;
+
 
     public CustomListAdapter(Context context, List<ItemPojo> pojoList) {
         mContext = context;
         this.pojoList = pojoList;
     }
 
+    public View getV() {
+        return v;
+    }
 
     @Override
     public int getCount() {
@@ -47,9 +50,9 @@ public class CustomListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, final View convertView, ViewGroup parent) {
 
-        View v = convertView;
+        v = convertView;
 
         if (v == null) {
             LayoutInflater vi;
@@ -60,12 +63,9 @@ public class CustomListAdapter extends BaseAdapter {
         ItemPojo item = pojoList.get(position);
 
         if (item != null) {
-            TextView name = (TextView) v.findViewById(R.id.tv_list_item_name);
+            final TextView name = (TextView) v.findViewById(R.id.tv_list_item_name);
             TextView description = (TextView) v.findViewById(R.id.tv_list_item_description);
-            ImageButton locationBtn = (ImageButton) v.findViewById(R.id.ib_list_item_location);
-            mTooltip = (TooltipView) v.findViewById(R.id.tooltip);
-            mTooltip.setText("Kothaguda, Hyderabad");
-
+            final TextView tooltip = (TextView) v.findViewById(R.id.tooltip);
             if (name != null) {
                 name.setText(item.getName());
             }
@@ -74,18 +74,18 @@ public class CustomListAdapter extends BaseAdapter {
                 description.setText(item.getDescription());
             }
 
-            locationBtn.setOnClickListener(new View.OnClickListener() {
+            v.findViewById(R.id.ib_list_item_location).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (mTooltip.isShown()) {
-                        mTooltip.setVisibility(View.GONE);
+                    if (tooltip.getText().equals(""))
+                        tooltip.setText("Kondapur");
 
-                    } else {
-                        mTooltip.setVisibility(View.VISIBLE);
+                    else
+                        tooltip.setText("");
 
-                    }
                 }
             });
+
 
         }
 
