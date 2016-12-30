@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
                     ((TextView) findViewById(R.id.tv_location_task)).setError("location can not be empty");
                 } else {
                     ItemPojo itemPojo = new ItemPojo(name, description, location, "pending");
-                    addProximityAlert();
+                    addProximityAlert(itemPojo);
                     saveTask.setVisible(false);
                     addTask.setVisible(true);
                     getSupportFragmentManager().popBackStack();
@@ -198,8 +198,11 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         //}
     }
 
-    private void addProximityAlert() {
+    private void addProximityAlert(ItemPojo itemPojo) {
         Intent intent = new Intent(PROX_ALERT_INTENT);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("object", itemPojo);
+        intent.putExtras(bundle);
         PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -207,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         if (lattitude != 0 && longitude != 0) {
             locationManager.addProximityAlert(lattitude, longitude, POINT_RADIUS, PROX_ALERT_EXPIRATION, proximityIntent);
             IntentFilter filter = new IntentFilter(PROX_ALERT_INTENT);
+
             registerReceiver(new ProximityIntentReceiver(), filter);
             Toast.makeText(getApplicationContext(), "Task reminder added", Toast.LENGTH_SHORT).show();
         } else

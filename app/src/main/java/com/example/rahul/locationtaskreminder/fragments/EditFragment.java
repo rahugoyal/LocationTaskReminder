@@ -99,7 +99,7 @@ public class EditFragment extends Fragment {
                         pojo.setName(mEtname.getText().toString());
                         pojo.setDescription(mEtdescription.getText().toString());
                         pojo.setLocation(mTvLocation.getText().toString());
-                        pojo.setTaskStatus(itemPojo.getTaskStatus());
+                        pojo.setTaskStatus("pending");
                         Constant.dbHelper.updateTask(pojo);
                         getActivity().getSupportFragmentManager().popBackStack();
                     }
@@ -140,7 +140,7 @@ public class EditFragment extends Fragment {
                 pojo.setName(mEtname.getText().toString());
                 pojo.setDescription(mEtdescription.getText().toString());
                 pojo.setLocation(mTvLocation.getText().toString());
-                pojo.setTaskStatus(itemPojo.getTaskStatus());
+                pojo.setTaskStatus("pending");
                 Constant.dbHelper.updateTask(pojo);
                 getActivity().getSupportFragmentManager().popBackStack();
                 dialog.cancel();
