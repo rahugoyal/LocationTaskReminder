@@ -30,11 +30,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.rahul.locationtaskreminder.Constants.Constant;
 import com.example.rahul.locationtaskreminder.R;
 import com.example.rahul.locationtaskreminder.adapters.PagerAdapter;
 import com.example.rahul.locationtaskreminder.fragments.AddTask;
 import com.example.rahul.locationtaskreminder.fragments.EditFragment;
 import com.example.rahul.locationtaskreminder.interfaces.Communicator;
+import com.example.rahul.locationtaskreminder.pojos.ItemPojo;
 import com.example.rahul.locationtaskreminder.receivers.ProximityIntentReceiver;
 
 
@@ -160,12 +162,14 @@ public class MainActivity extends AppCompatActivity implements Communicator {
                 } else if (location.equals("")) {
                     ((TextView) findViewById(R.id.tv_location_task)).setError("location can not be empty");
                 } else {
+                    ItemPojo itemPojo = new ItemPojo(name, description, location, "pending");
                     addProximityAlert();
                     saveTask.setVisible(false);
                     addTask.setVisible(true);
                     getSupportFragmentManager().popBackStack();
                     tabLayout.setVisibility(View.VISIBLE);
                     viewPager.setVisibility(View.VISIBLE);
+                    Constant.dbHelper.insertTask(itemPojo);
                     Toast.makeText(this, "Data saved successfully", Toast.LENGTH_SHORT).show();
                 }
                 break;

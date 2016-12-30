@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.rahul.locationtaskreminder.Constants.Constant;
 import com.example.rahul.locationtaskreminder.R;
+import com.example.rahul.locationtaskreminder.database.DBHelper;
 
 
 public class SplashActivity extends AppCompatActivity {
@@ -13,7 +15,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
+        Constant.dbHelper = new DBHelper(this);
         Thread timerThread = new Thread() {
             public void run() {
                 try {

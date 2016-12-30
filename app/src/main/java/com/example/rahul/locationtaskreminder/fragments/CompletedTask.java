@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.rahul.locationtaskreminder.Constants.Constant;
 import com.example.rahul.locationtaskreminder.R;
 import com.example.rahul.locationtaskreminder.adapters.CustomListAdapter;
 import com.example.rahul.locationtaskreminder.pojos.ItemPojo;
@@ -27,7 +28,7 @@ import java.util.List;
 public class CompletedTask extends Fragment {
     private ListView mListView;
     private CustomListAdapter mAdapter;
-    private List<ItemPojo> pojoList;
+    private List<ItemPojo> pojoList, dbList;
 
     @Nullable
     @Override
@@ -40,18 +41,24 @@ public class CompletedTask extends Fragment {
     private void initializeViews(View view) {
         mListView = (ListView) view.findViewById(R.id.lv_completed);
         pojoList = new ArrayList<>();
-        ItemPojo pojo = new ItemPojo("purchasing oil", "what are u doing?", "","");
-        ItemPojo pojo1 = new ItemPojo("doing work", "what did u do?", "","");
-        pojoList.add(pojo);
-        pojoList.add(pojo1);
+        dbList = Constant.dbHelper.getAllTasks();
+
+        if (dbList != null) {
+            for (int i = 0; i < dbList.size(); i++) {
+                if (dbList.get(i).getTaskStatus().equals("completed")) {
+                    pojoList.add(dbList.get(i));
+                }
+            }
+        }
 
         mAdapter = new CustomListAdapter(getActivity().getApplicationContext(), pojoList);
         mListView.setAdapter(mAdapter);
 
-        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        mListView.setOnItemLongClickListener(new ListView.OnItemLongClickListener() {
+
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                deleteAlert();
+            public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long row_id) {
+                deleteAlert(pojoList.get(position));
                 return true;
             }
         });
@@ -66,14 +73,15 @@ public class CompletedTask extends Fragment {
                 EditFragment editFragment = new EditFragment();
                 Bundle args = new Bundle();
                 args.putSerializable("pojo", pojoList.get(i));
-                args.putInt("status",2);
+                args.putInt("status", 2);
                 editFragment.setArguments(args);
                 getActivity().getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, editFragment).addToBackStack("Edit Task").commit();
 
             }
         });
     }
-    public void deleteAlert() {
+
+    public void deleteAlert(final ItemPojo itemPojo) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
         alertDialog.setTitle("Warning!");
         alertDialog.setMessage("Do you want to delete this task?");
@@ -81,6 +89,8 @@ public class CompletedTask extends Fragment {
 
         alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+                Constant.dbHelper.deleteTask(itemPojo.getId());
+
                 dialog.cancel();
 
             }

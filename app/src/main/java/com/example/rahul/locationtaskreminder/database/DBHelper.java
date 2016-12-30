@@ -18,7 +18,7 @@ import com.example.rahul.locationtaskreminder.pojos.ItemPojo;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "task2.db";
+    public static final String DATABASE_NAME = "task.db";
     public static final String TASK_TABLE_NAME = "location_task";
     public static final String TASK_COLUMN_ID = "id";
     public static final String TASK_COLUMN_NAME = "name";
@@ -55,7 +55,6 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert(TASK_TABLE_NAME, null, contentValues);
         return true;
     }
-
 
 
     public boolean updateTask(ItemPojo itemPojo) {

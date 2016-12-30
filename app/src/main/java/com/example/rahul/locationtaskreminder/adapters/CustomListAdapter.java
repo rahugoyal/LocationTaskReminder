@@ -60,7 +60,7 @@ public class CustomListAdapter extends BaseAdapter {
             v = vi.inflate(R.layout.custom_list_item, null);
         }
 
-        ItemPojo item = pojoList.get(position);
+        final ItemPojo item = pojoList.get(position);
 
         if (item != null) {
             final TextView name = (TextView) v.findViewById(R.id.tv_list_item_name);
@@ -78,7 +78,7 @@ public class CustomListAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View view) {
                     if (tooltip.getText().equals(""))
-                        tooltip.setText("Kondapur");
+                        tooltip.setText(item.getLocation());
 
                     else
                         tooltip.setText("");

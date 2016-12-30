@@ -1,6 +1,8 @@
 package com.example.rahul.locationtaskreminder.fragments;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,6 +28,10 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -89,8 +95,17 @@ public class AddTask extends Fragment {
         if (requestCode == 9) {
             if (resultCode == RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(getActivity(), data);
-                mTvLocation.setText(place.getAddress() + "");
+                Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
                 LatLng latlng = place.getLatLng();
+                List<Address> addresses = null;
+                try {
+                    addresses = geocoder.getFromLocation(latlng.latitude, latlng.longitude, 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String address = addresses.get(0).getLocality();
+                mTvLocation.setText(place.getName() + ", " + address );
+
                 mCommunicator.communicate(latlng.latitude, latlng.longitude);
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(getActivity(), data);
