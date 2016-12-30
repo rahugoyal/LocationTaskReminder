@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.location.LocationManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -94,6 +95,16 @@ public class MainActivity extends AppCompatActivity implements Communicator {
 
         tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FF0B7ED6"));
 
+        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                shouldDisplayHomeUp();
+
+            }
+        });
+
+        shouldDisplayHomeUp();
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -103,12 +114,6 @@ public class MainActivity extends AppCompatActivity implements Communicator {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        toolbar.setNavigationIcon(R.mipmap.ic_toolbar);
-        toolbar.setTitle("Location Task Reminder");
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -119,14 +124,23 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         return true;
     }
 
+    public void shouldDisplayHomeUp() {
+        boolean canback = getSupportFragmentManager().getBackStackEntryCount() > 0;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(canback);
+        if (!canback) {
+            toolbar.setNavigationIcon(R.mipmap.ic_toolbar);
+
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
 
         switch (item.getItemId()) {
-//            case android.R.id.home:
-//                onBackPressed();
-//                break;
+            case android.R.id.home:
+                onBackPressed();
+                break;
             case R.id.add_reminder:
                 tabLayout.setVisibility(View.GONE);
                 viewPager.setVisibility(View.GONE);
@@ -204,7 +218,6 @@ public class MainActivity extends AppCompatActivity implements Communicator {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
-                    // adapterViewPager.notifyDataSetChanged();
 
                 }
                 return;

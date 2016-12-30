@@ -7,7 +7,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -32,6 +37,7 @@ public class EditFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.edit_fragment, container, false);
+
         if (getArguments() != null) {
             itemPojo = (ItemPojo) getArguments().getSerializable("pojo");
             fragmentStatus = getArguments().getInt("status");
@@ -71,6 +77,8 @@ public class EditFragment extends Fragment {
             }
         });
     }
+
+
 
     private void alert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
