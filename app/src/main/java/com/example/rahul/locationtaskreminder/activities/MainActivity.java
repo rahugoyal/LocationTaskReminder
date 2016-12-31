@@ -162,7 +162,12 @@ public class MainActivity extends AppCompatActivity implements Communicator {
                 } else if (location.equals("")) {
                     ((TextView) findViewById(R.id.tv_location_task)).setError("location can not be empty");
                 } else {
-                    ItemPojo itemPojo = new ItemPojo(name, description, location, "pending");
+                    int task_id = Constant.preferences.getInt("task_id", 0);
+                    ItemPojo itemPojo = new ItemPojo(task_id, name, description, location, "pending");
+                    task_id = task_id + 1;
+                    Constant.editor.clear();
+                    Constant.editor.putInt("task_id", task_id);
+                    Constant.editor.commit();
                     addProximityAlert(itemPojo);
                     saveTask.setVisible(false);
                     addTask.setVisible(true);
@@ -177,6 +182,8 @@ public class MainActivity extends AppCompatActivity implements Communicator {
 
             default:
                 Toast.makeText(this, "No valid operation", Toast.LENGTH_SHORT).show();
+
+
         }
         return true;
     }
@@ -203,7 +210,9 @@ public class MainActivity extends AppCompatActivity implements Communicator {
         Bundle bundle = new Bundle();
         bundle.putSerializable("object", itemPojo);
         intent.putExtras(bundle);
-        PendingIntent proximityIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+        PendingIntent proximityIntent = PendingIntent.getBroadcast(this, itemPojo.getId(), intent, 0);
+
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }

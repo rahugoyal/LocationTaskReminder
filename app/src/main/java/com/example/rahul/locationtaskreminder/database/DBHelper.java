@@ -34,7 +34,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(
                 "create table  " + TASK_TABLE_NAME +
-                        "(" + TASK_COLUMN_ID + " integer primary key autoincrement," + TASK_COLUMN_NAME + " text," + TASK_COLUMN_DESCRIPTION + " text," + TASK_COLUMN_LOCATION + " text, " + TASK_COLUMN_TASK_STATUS + " text)"
+                        "(" + TASK_COLUMN_ID + " integer primary key ," + TASK_COLUMN_NAME + " text," + TASK_COLUMN_DESCRIPTION + " text," + TASK_COLUMN_LOCATION + " text, " + TASK_COLUMN_TASK_STATUS + " text)"
         );
     }
 
@@ -47,6 +47,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public boolean insertTask(ItemPojo itemPojo) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put(TASK_COLUMN_ID, itemPojo.getId());
         contentValues.put(TASK_COLUMN_NAME, itemPojo.getName());
         contentValues.put(TASK_COLUMN_DESCRIPTION, itemPojo.getDescription());
         contentValues.put(TASK_COLUMN_LOCATION, itemPojo.getLocation());

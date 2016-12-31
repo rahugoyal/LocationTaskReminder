@@ -16,8 +16,8 @@ public class ItemPojo implements Serializable {
     public ItemPojo() {
     }
 
-    public ItemPojo( String name, String description, String location, String taskStatus) {
-
+    public ItemPojo(int task_id, String name, String description, String location, String taskStatus) {
+        id = task_id;
         this.name = name;
         this.description = description;
         this.location = location;

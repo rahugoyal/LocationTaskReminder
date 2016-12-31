@@ -48,6 +48,8 @@ public class ProximityIntentReceiver extends BroadcastReceiver {
 
             notificationManager.notify(NOTIFICATION_ID, notification);
             itemPojo.setTaskStatus("completed");
+
+            Log.e("idsd", itemPojo.getId() + "");
             Constant.dbHelper.updateTask(itemPojo);
         }
     }
