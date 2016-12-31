@@ -19,13 +19,17 @@ import android.util.Log;
 import com.example.rahul.locationtaskreminder.Constants.Constant;
 import com.example.rahul.locationtaskreminder.R;
 import com.example.rahul.locationtaskreminder.activities.MainActivity;
+import com.example.rahul.locationtaskreminder.interfaces.Communicator;
 import com.example.rahul.locationtaskreminder.pojos.ItemPojo;
 
 public class ProximityIntentReceiver extends BroadcastReceiver {
     private static final int NOTIFICATION_ID = 1000;
+    Communicator mCommunicator;
+    private static final String REMOVE_PROXIMITY = "com.example.rahul.locationtaskreminder.activities.ProximityAlert";
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        mCommunicator = (Communicator) context;
         Bundle bundle = intent.getExtras();
         ItemPojo itemPojo = (ItemPojo) bundle.getSerializable("object");
         if (itemPojo != null) {
@@ -48,10 +52,20 @@ public class ProximityIntentReceiver extends BroadcastReceiver {
 
             notificationManager.notify(NOTIFICATION_ID, notification);
             itemPojo.setTaskStatus("completed");
-
-            Log.e("idsd", itemPojo.getId() + "");
             Constant.dbHelper.updateTask(itemPojo);
+            mCommunicator.refreshData(2);
+
+            removeProximityAlert(itemPojo.getId(), context);
         }
+    }
+
+    private void removeProximityAlert(int unique_id, Context context) {
+
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        Intent anIntent = new Intent(REMOVE_PROXIMITY);
+        PendingIntent operation =
+                PendingIntent.getBroadcast(context, unique_id, anIntent, 0);
+        locationManager.removeProximityAlert(operation);
     }
 
 

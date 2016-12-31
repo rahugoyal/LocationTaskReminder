@@ -1,7 +1,11 @@
 package com.example.rahul.locationtaskreminder.fragments;
 
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -19,6 +23,7 @@ import android.widget.Toast;
 import com.example.rahul.locationtaskreminder.Constants.Constant;
 import com.example.rahul.locationtaskreminder.R;
 import com.example.rahul.locationtaskreminder.adapters.CustomListAdapter;
+import com.example.rahul.locationtaskreminder.interfaces.Communicator;
 import com.example.rahul.locationtaskreminder.pojos.ItemPojo;
 
 import java.util.ArrayList;
@@ -32,7 +37,9 @@ public class PendingTaskFragment extends Fragment {
     private ListView mListView;
     private CustomListAdapter mAdapter;
     private List<ItemPojo> pojoList, dbList;
-    private ImageButton mIbLocation;
+    Communicator mCommunicator;
+    private static final String REMOVE_PROXIMITY = "com.example.rahul.locationtaskreminder.activities.ProximityAlert";
+
 
     @Nullable
     @Override
@@ -44,6 +51,7 @@ public class PendingTaskFragment extends Fragment {
 
     private void initializeViews(View view) {
         mListView = (ListView) view.findViewById(R.id.lv_pending);
+        mCommunicator = (Communicator) getActivity();
         pojoList = new ArrayList<>();
         dbList = Constant.dbHelper.getAllTasks();
 
@@ -62,6 +70,7 @@ public class PendingTaskFragment extends Fragment {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View view, int position, long row_id) {
+                removeProximityAlert(pojoList.get(position).getId());
                 deleteAlert(pojoList.get(position));
                 return true;
             }
@@ -96,6 +105,7 @@ public class PendingTaskFragment extends Fragment {
         alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Constant.dbHelper.deleteTask(itemPojo.getId());
+                mCommunicator.refreshData(1);
                 dialog.cancel();
 
             }
@@ -103,9 +113,19 @@ public class PendingTaskFragment extends Fragment {
 
         alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+                mCommunicator.refreshData(1);
                 dialog.cancel();
             }
         });
         alertDialog.show();
+    }
+
+    private void removeProximityAlert(int unique_id) {
+
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        Intent anIntent = new Intent(REMOVE_PROXIMITY);
+        PendingIntent operation =
+                PendingIntent.getBroadcast(getActivity(), unique_id, anIntent, 0);
+        locationManager.removeProximityAlert(operation);
     }
 }

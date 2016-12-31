@@ -1,7 +1,11 @@
 package com.example.rahul.locationtaskreminder.fragments;
 
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -16,6 +20,7 @@ import android.widget.ListView;
 import com.example.rahul.locationtaskreminder.Constants.Constant;
 import com.example.rahul.locationtaskreminder.R;
 import com.example.rahul.locationtaskreminder.adapters.CustomListAdapter;
+import com.example.rahul.locationtaskreminder.interfaces.Communicator;
 import com.example.rahul.locationtaskreminder.pojos.ItemPojo;
 
 import java.util.ArrayList;
@@ -29,6 +34,8 @@ public class CompletedTask extends Fragment {
     private ListView mListView;
     private CustomListAdapter mAdapter;
     private List<ItemPojo> pojoList, dbList;
+    private Communicator mCommunicator;
+
 
     @Nullable
     @Override
@@ -40,6 +47,8 @@ public class CompletedTask extends Fragment {
 
     private void initializeViews(View view) {
         mListView = (ListView) view.findViewById(R.id.lv_completed);
+        mCommunicator = (Communicator) getActivity();
+
         pojoList = new ArrayList<>();
         dbList = Constant.dbHelper.getAllTasks();
 
@@ -90,7 +99,7 @@ public class CompletedTask extends Fragment {
         alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Constant.dbHelper.deleteTask(itemPojo.getId());
-
+                mCommunicator.refreshData(2);
                 dialog.cancel();
 
             }
@@ -98,9 +107,11 @@ public class CompletedTask extends Fragment {
 
         alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+                mCommunicator.refreshData(2);
                 dialog.cancel();
             }
         });
         alertDialog.show();
     }
+
 }

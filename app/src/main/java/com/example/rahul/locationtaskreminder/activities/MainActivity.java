@@ -175,6 +175,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
                     tabLayout.setVisibility(View.VISIBLE);
                     viewPager.setVisibility(View.VISIBLE);
                     Constant.dbHelper.insertTask(itemPojo);
+                    refreshData(1);
                     Toast.makeText(this, "Data saved successfully", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -247,5 +248,42 @@ public class MainActivity extends AppCompatActivity implements Communicator {
     public void communicate(double lat, double lon) {
         lattitude = lat;
         longitude = lon;
+    }
+
+    @Override
+    public void alertCall(ItemPojo itemPojo) {
+        addProximityAlert(itemPojo);
+    }
+
+    @Override
+    public void refreshData(int pos) {
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        adapterViewPager = new PagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapterViewPager);
+
+        //setup tabs view pager
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
+
+
+        //custom tabs
+        TextView tabOne = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tabOne.setText("Map");
+        tabOne.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.ic_location, 0, 0);
+        tabLayout.getTabAt(0).setCustomView(tabOne);
+
+        TextView tabTwo = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tabTwo.setText("Pending");
+        tabTwo.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.ic_pending, 0, 0);
+        tabLayout.getTabAt(1).setCustomView(tabTwo);
+
+        TextView tabThree = (TextView) LayoutInflater.from(this).inflate(R.layout.custom_tab, null);
+        tabThree.setText("Completed");
+        tabThree.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.ic_completed, 0, 0);
+        tabLayout.getTabAt(2).setCustomView(tabThree);
+
+        tabLayout.setSelectedTabIndicatorColor(Color.parseColor("#FF0B7ED6"));
+
+        viewPager.setCurrentItem(pos);
     }
 }

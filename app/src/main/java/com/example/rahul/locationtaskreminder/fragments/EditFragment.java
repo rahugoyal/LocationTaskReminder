@@ -1,10 +1,13 @@
 package com.example.rahul.locationtaskreminder.fragments;
 
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -26,6 +29,7 @@ import android.widget.TextView;
 
 import com.example.rahul.locationtaskreminder.Constants.Constant;
 import com.example.rahul.locationtaskreminder.R;
+import com.example.rahul.locationtaskreminder.interfaces.Communicator;
 import com.example.rahul.locationtaskreminder.pojos.ItemPojo;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -52,6 +56,9 @@ public class EditFragment extends Fragment {
     ImageButton mIbUpdate;
     LinearLayout mLlLocation;
     int fragmentStatus = 0;
+    Communicator mCommunicator;
+    private static final String REMOVE_PROXIMITY = "com.example.rahul.locationtaskreminder.activities.ProximityAlert";
+
 
     @Nullable
     @Override
@@ -73,6 +80,7 @@ public class EditFragment extends Fragment {
         mTvLocation = (TextView) view.findViewById(R.id.tv_location_edit);
         mIbUpdate = (ImageButton) view.findViewById(R.id.ib_update_edit);
         mLlLocation = (LinearLayout) view.findViewById(R.id.ll_edit);
+        mCommunicator = (Communicator) getActivity();
         mLlLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -101,6 +109,9 @@ public class EditFragment extends Fragment {
                         pojo.setLocation(mTvLocation.getText().toString());
                         pojo.setTaskStatus("pending");
                         Constant.dbHelper.updateTask(pojo);
+                        mCommunicator.refreshData(1);
+                        removeProximityAlert(pojo.getId());
+                        mCommunicator.alertCall(pojo);
                         getActivity().getSupportFragmentManager().popBackStack();
                     }
                 } else if (fragmentStatus == 2) {
@@ -142,6 +153,8 @@ public class EditFragment extends Fragment {
                 pojo.setLocation(mTvLocation.getText().toString());
                 pojo.setTaskStatus("pending");
                 Constant.dbHelper.updateTask(pojo);
+                mCommunicator.refreshData(2);
+                mCommunicator.alertCall(pojo);
                 getActivity().getSupportFragmentManager().popBackStack();
                 dialog.cancel();
 
@@ -154,6 +167,7 @@ public class EditFragment extends Fragment {
                 tableLayout.setVisibility(View.VISIBLE);
                 ViewPager viewPager = (ViewPager) getActivity().findViewById(R.id.viewpager);
                 viewPager.setVisibility(View.VISIBLE);
+                mCommunicator.refreshData(2);
                 getActivity().getSupportFragmentManager().popBackStack();
                 dialog.cancel();
             }
@@ -195,7 +209,7 @@ public class EditFragment extends Fragment {
                 String address = addresses.get(0).getLocality();
                 mTvLocation.setText(place.getName() + ", " + address);
 
-                // mCommunicator.communicate(latlng.latitude, latlng.longitude);
+                mCommunicator.communicate(latlng.latitude, latlng.longitude);
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(getActivity(), data);
                 Log.i("error", status.getStatusMessage());
@@ -203,5 +217,14 @@ public class EditFragment extends Fragment {
             } else if (resultCode == RESULT_CANCELED) {
             }
         }
+    }
+
+    private void removeProximityAlert(int unique_id) {
+
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        Intent anIntent = new Intent(REMOVE_PROXIMITY);
+        PendingIntent operation =
+                PendingIntent.getBroadcast(getActivity(), unique_id, anIntent, 0);
+        locationManager.removeProximityAlert(operation);
     }
 }
