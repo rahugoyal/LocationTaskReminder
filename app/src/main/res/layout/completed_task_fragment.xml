@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:descendantFocusability="blocksDescendants"
-    android:background="@mipmap/bg_home">
+    android:background="@mipmap/bg_home"
+    android:descendantFocusability="blocksDescendants">
 
     <ListView
         android:id="@+id/lv_completed"
@@ -15,4 +15,14 @@
         android:dividerHeight="4px"
         android:longClickable="true"
         android:padding="2dp" />
+
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textColor="#fff"
+        android:text="No Data Available"
+        android:textSize="24dp" />
 </RelativeLayout>

@@ -62,6 +62,8 @@ public class CompletedTask extends Fragment {
 
         mAdapter = new CustomListAdapter(getActivity().getApplicationContext(), pojoList);
         mListView.setAdapter(mAdapter);
+        mListView.setEmptyView(view.findViewById(android.R.id.empty));
+
 
         mListView.setOnItemLongClickListener(new ListView.OnItemLongClickListener() {
 

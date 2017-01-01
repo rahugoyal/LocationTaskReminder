@@ -25,6 +25,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String TASK_COLUMN_DESCRIPTION = "description";
     public static final String TASK_COLUMN_LOCATION = "location";
     public static final String TASK_COLUMN_TASK_STATUS = "task_status";
+    public static final String TASK_COLUMN_TASK_DISTANCE = "distance";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -34,7 +35,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(
                 "create table  " + TASK_TABLE_NAME +
-                        "(" + TASK_COLUMN_ID + " integer primary key ," + TASK_COLUMN_NAME + " text," + TASK_COLUMN_DESCRIPTION + " text," + TASK_COLUMN_LOCATION + " text, " + TASK_COLUMN_TASK_STATUS + " text)"
+                        "(" + TASK_COLUMN_ID + " integer primary key ," + TASK_COLUMN_NAME + " text," + TASK_COLUMN_DESCRIPTION + " text," + TASK_COLUMN_LOCATION + " text, " + TASK_COLUMN_TASK_STATUS + " text," + TASK_COLUMN_TASK_DISTANCE + " text)"
         );
     }
 
@@ -52,6 +53,7 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(TASK_COLUMN_DESCRIPTION, itemPojo.getDescription());
         contentValues.put(TASK_COLUMN_LOCATION, itemPojo.getLocation());
         contentValues.put(TASK_COLUMN_TASK_STATUS, itemPojo.getTaskStatus());
+        contentValues.put(TASK_COLUMN_TASK_DISTANCE, itemPojo.getDistance());
 
         db.insert(TASK_TABLE_NAME, null, contentValues);
         return true;
@@ -65,6 +67,8 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put(TASK_COLUMN_DESCRIPTION, itemPojo.getDescription());
         contentValues.put(TASK_COLUMN_LOCATION, itemPojo.getLocation());
         contentValues.put(TASK_COLUMN_TASK_STATUS, itemPojo.getTaskStatus());
+        contentValues.put(TASK_COLUMN_TASK_DISTANCE, itemPojo.getDistance());
+
         db.update(TASK_TABLE_NAME, contentValues, "id = ? ", new String[]{Integer.toString(itemPojo.getId())});
         return true;
     }
@@ -89,6 +93,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 pojo.setDescription(res.getString(2));
                 pojo.setLocation(res.getString(3));
                 pojo.setTaskStatus(res.getString(4));
+                pojo.setDistance(res.getString(5));
 
                 array_list.add(pojo);
             } while (res.moveToNext());

@@ -107,10 +107,16 @@ public class EditFragment extends Fragment {
                         pojo.setName(mEtname.getText().toString());
                         pojo.setDescription(mEtdescription.getText().toString());
                         pojo.setLocation(mTvLocation.getText().toString());
+                        pojo.setDistance(itemPojo.getDistance());
                         pojo.setTaskStatus("pending");
                         Constant.dbHelper.updateTask(pojo);
                         mCommunicator.refreshData(1);
                         removeProximityAlert(pojo.getId());
+                        if (!Constant.isLocationUpdated) {
+                            if (getAddress() != null)
+                                getLocationFromAddress(getAddress());
+                        } else Constant.isLocationUpdated = false;
+
                         mCommunicator.alertCall(pojo);
                         getActivity().getSupportFragmentManager().popBackStack();
                     }
@@ -152,8 +158,14 @@ public class EditFragment extends Fragment {
                 pojo.setDescription(mEtdescription.getText().toString());
                 pojo.setLocation(mTvLocation.getText().toString());
                 pojo.setTaskStatus("pending");
+                pojo.setDistance(itemPojo.getDistance());
+
                 Constant.dbHelper.updateTask(pojo);
                 mCommunicator.refreshData(2);
+                if (!Constant.isLocationUpdated) {
+                    if (getAddress() != null)
+                        getLocationFromAddress(getAddress());
+                } else Constant.isLocationUpdated = false;
                 mCommunicator.alertCall(pojo);
                 getActivity().getSupportFragmentManager().popBackStack();
                 dialog.cancel();
@@ -210,6 +222,7 @@ public class EditFragment extends Fragment {
                 mTvLocation.setText(place.getName() + ", " + address);
 
                 mCommunicator.communicate(latlng.latitude, latlng.longitude);
+                Constant.isLocationUpdated = true;
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(getActivity(), data);
                 Log.i("error", status.getStatusMessage());
@@ -226,5 +239,44 @@ public class EditFragment extends Fragment {
         PendingIntent operation =
                 PendingIntent.getBroadcast(getActivity(), unique_id, anIntent, 0);
         locationManager.removeProximityAlert(operation);
+    }
+
+    public void getLocationFromAddress(String strAddress) {
+
+        Geocoder coder = new Geocoder(getActivity());
+        List<Address> address;
+
+
+        try {
+            address = coder.getFromLocationName(strAddress, 1);
+            if (address != null) {
+                Address location = address.get(0);
+                location.getLatitude();
+                location.getLongitude();
+                mCommunicator.communicate(location.getLatitude(), location.getLongitude());
+                Log.e("lat and long", location.getLatitude() + "   " + location.getLongitude());
+            }
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getAddress() {
+        String address, addresses[], newAddress = "";
+        if (mTvLocation != null) {
+            address = mTvLocation.getText().toString();
+            addresses = address.split(",");
+            if (addresses != null) {
+                for (int i = 0; i < addresses.length; i++) {
+                    if (addresses[i] != null)
+                        newAddress += addresses[i];
+                }
+            }
+            return newAddress;
+        } else
+            return null;
+
     }
 }

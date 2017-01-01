@@ -12,4 +12,5 @@ public final class Constant {
     public static DBHelper dbHelper;
     public static  SharedPreferences.Editor editor;
     public static SharedPreferences preferences;
+    public static boolean isLocationUpdated = false;
 }

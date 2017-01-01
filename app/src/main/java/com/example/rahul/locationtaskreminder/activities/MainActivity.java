@@ -155,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
                 String name = ((EditText) findViewById(R.id.et_add_task_name)).getText().toString();
                 String description = ((EditText) findViewById(R.id.et_add_task_description)).getText().toString();
                 String location = ((TextView) findViewById(R.id.tv_location_task)).getText().toString();
+                String distance = ((TextView) findViewById(R.id.tv_seekbar_task)).getText().toString();
                 if (name.equals("")) {
                     ((EditText) findViewById(R.id.et_add_task_name)).setError("please give name of task ");
                 } else if (description.equals("")) {
@@ -163,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements Communicator {
                     ((TextView) findViewById(R.id.tv_location_task)).setError("location can not be empty");
                 } else {
                     int task_id = Constant.preferences.getInt("task_id", 0);
-                    ItemPojo itemPojo = new ItemPojo(task_id, name, description, location, "pending");
+                    ItemPojo itemPojo = new ItemPojo(task_id, name, description, location, "pending", distance);
                     task_id = task_id + 1;
                     Constant.editor.clear();
                     Constant.editor.putInt("task_id", task_id);
@@ -218,11 +219,15 @@ public class MainActivity extends AppCompatActivity implements Communicator {
             return;
         }
         if (lattitude != 0 && longitude != 0) {
-            locationManager.addProximityAlert(lattitude, longitude, POINT_RADIUS, PROX_ALERT_EXPIRATION, proximityIntent);
-            IntentFilter filter = new IntentFilter(PROX_ALERT_INTENT);
+            if (Integer.parseInt(itemPojo.getDistance()) <= 0) {
+                Toast.makeText(this, "Please select proper value from seekbar", Toast.LENGTH_SHORT).show();
+            } else {
+                locationManager.addProximityAlert(lattitude, longitude, Integer.parseInt(itemPojo.getDistance())*1000, PROX_ALERT_EXPIRATION, proximityIntent);
+                IntentFilter filter = new IntentFilter(PROX_ALERT_INTENT);
 
-            registerReceiver(new ProximityIntentReceiver(), filter);
-            Toast.makeText(getApplicationContext(), "Task reminder added", Toast.LENGTH_SHORT).show();
+                registerReceiver(new ProximityIntentReceiver(), filter);
+                Toast.makeText(getApplicationContext(), "Task reminder added", Toast.LENGTH_SHORT).show();
+            }
         } else
             Toast.makeText(this, "latitude and longitude are not valid", Toast.LENGTH_SHORT).show();
 

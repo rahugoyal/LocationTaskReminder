@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/bg_home"
@@ -13,7 +13,19 @@
         android:background="@android:color/transparent"
         android:cacheColorHint="@android:color/transparent"
         android:divider="#fff"
+        android:visibility="gone"
         android:dividerHeight="4px"
         android:longClickable="true"
         android:padding="2dp" />
-</LinearLayout>
+
+    <TextView
+        android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+android:layout_centerInParent="true"
+
+        android:textColor="#fff"
+        android:layout_gravity="center"
+        android:text="No Data Available"
+        android:textSize="24dp" />
+</RelativeLayout>

@@ -63,7 +63,6 @@
     </LinearLayout>
 
     <EditText
-        android:padding="4dp"
         android:id="@+id/et_add_task_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,28 +73,64 @@
         android:layout_marginTop="32dp"
         android:background="@drawable/edittext_ractangle"
         android:gravity="center"
+        android:hint="please enter decription*"
 
         android:inputType="textMultiLine"
         android:lines="20"
         android:maxLines="10"
         android:minLines="5"
+        android:padding="4dp"
         android:scrollHorizontally="false"
-        android:hint="please enter decription*"
         android:scrollbars="vertical"
         android:singleLine="false"
         android:textColor="#fff"
         android:textColorHint="#fff"
         android:textSize="24dp" />
+
     <TextView
-        android:layout_below="@+id/et_add_task_description"
         android:id="@+id/tv_location_task"
         style="@android:style/Widget.EditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/et_add_task_description"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:text=""
         android:textColor="#fff"
         android:textSize="16dp" />
+
+    <SeekBar
+        android:id="@+id/seekbar_add_task"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_location_task"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/tv_seekbar_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/seekbar_add_task"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="#fff"
+        android:textSize="16dp" />
+    <TextView
+        android:id="@+id/tv_seekbar_task1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/seekbar_add_task"
+        android:layout_toRightOf="@+id/tv_seekbar_task"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:text="   KM"
+        android:textColor="#fff"
+        android:textSize="16dp" />
+
+
 </RelativeLayout>

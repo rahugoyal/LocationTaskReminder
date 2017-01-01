@@ -12,16 +12,26 @@ public class ItemPojo implements Serializable {
     String location;
     String taskStatus;
     int id;
+    String distance;
 
     public ItemPojo() {
     }
 
-    public ItemPojo(int task_id, String name, String description, String location, String taskStatus) {
+    public ItemPojo(int task_id, String name, String description, String location, String taskStatus, String distance) {
         id = task_id;
         this.name = name;
         this.description = description;
         this.location = location;
         this.taskStatus = taskStatus;
+        this.distance = distance;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
     }
 
     public int getId() {

@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.rahul.locationtaskreminder.R;
@@ -43,8 +44,10 @@ import static android.app.Activity.RESULT_OK;
 public class AddTask extends Fragment {
     private LinearLayout mLlsearch;
 
-    private TextView mTvLocation;
+    private TextView mTvLocation, mTvSeekbar;
     private Communicator mCommunicator;
+    private SeekBar mSeekbar;
+
 
     @Nullable
     @Override
@@ -57,6 +60,29 @@ public class AddTask extends Fragment {
     private void initializeViews(View view) {
         mLlsearch = (LinearLayout) view.findViewById(R.id.ll_add_task);
         mTvLocation = (TextView) view.findViewById(R.id.tv_location_task);
+        mTvSeekbar = (TextView) view.findViewById(R.id.tv_seekbar_task);
+        mSeekbar = (SeekBar) view.findViewById(R.id.seekbar_add_task);
+        mTvSeekbar.setText("0");
+
+        mSeekbar.setMax(5);
+        mSeekbar.setProgress(0);
+
+        mSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                mTvSeekbar.setText("" + i);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
         mCommunicator = (Communicator) getActivity();
         mLlsearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +130,7 @@ public class AddTask extends Fragment {
                     e.printStackTrace();
                 }
                 String address = addresses.get(0).getLocality();
-                mTvLocation.setText(place.getName() + ", " + address );
+                mTvLocation.setText(place.getName() + ", " + address);
 
                 mCommunicator.communicate(latlng.latitude, latlng.longitude);
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
