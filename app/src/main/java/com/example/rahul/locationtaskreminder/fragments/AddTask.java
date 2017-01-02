@@ -129,10 +129,11 @@ public class AddTask extends Fragment {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                String address = addresses.get(0).getLocality();
-                mTvLocation.setText(place.getName() + ", " + address);
-
-                mCommunicator.communicate(latlng.latitude, latlng.longitude);
+                if (addresses != null) {
+                    String address = addresses.get(0).getLocality();
+                    mTvLocation.setText(place.getName() + ", " + address);
+                    mCommunicator.communicate(latlng.latitude, latlng.longitude);
+                }
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(getActivity(), data);
                 Log.i("error", status.getStatusMessage());

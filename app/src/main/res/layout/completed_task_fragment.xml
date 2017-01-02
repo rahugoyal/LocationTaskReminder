@@ -23,6 +23,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:textColor="#fff"
+        android:gravity="center"
         android:text="No Data Available"
         android:textSize="24dp" />
 </RelativeLayout>

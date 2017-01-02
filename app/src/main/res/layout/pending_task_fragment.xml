@@ -13,19 +13,19 @@
         android:background="@android:color/transparent"
         android:cacheColorHint="@android:color/transparent"
         android:divider="#fff"
-        android:visibility="gone"
         android:dividerHeight="4px"
         android:longClickable="true"
-        android:padding="2dp" />
+        android:padding="2dp"
+         />
 
     <TextView
         android:id="@android:id/empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-android:layout_centerInParent="true"
-
-        android:textColor="#fff"
+        android:layout_centerInParent="true"
         android:layout_gravity="center"
+        android:gravity="center"
         android:text="No Data Available"
+        android:textColor="#fff"
         android:textSize="24dp" />
 </RelativeLayout>
